@@ -1,7 +1,6 @@
 /*
     Mini Project C++ OOP: BattleShip Strategy Benchmark
     ----------------------------------------------------
-    - Code nam trong 1 file duy nhat.
     - Mo phong 4 chien thuat ban tau va 1 chien thuat dat tau ngau nhien.
     - Chay 16 matchup, moi matchup mac dinh 100000 tran.
     - Co the truyen so tran qua command line de test nhanh:

@@ -1,196 +1,207 @@
 ﻿# Mini Project C++ OOP: BattleShip Strategy Benchmark
 
-## 1. Gioi Thieu Project
+## 1. Giới Thiệu Project
 
-Day la mini project C++ console mo phong game BattleShip de phan tich chien thuat ban tau va chien thuat dat tau bang lap trinh huong doi tuong OOP.
+Đây là mini project C++ console mô phỏng trò chơi BattleShip để phân tích chiến thuật bắn tàu và chiến thuật đặt tàu bằng lập trình hướng đối tượng OOP.
 
-Project tap trung vao 2 cau hoi:
+Project tập trung trả lời 2 câu hỏi chính:
 
-1. Neu la nguoi ban tau, chien thuat nao toi uu nhat?
-2. Neu la nguoi dat tau, nen dat tau nhu the nao de doi thu kho ban trung?
+1. Nếu là người bắn tàu, chiến thuật nào tối ưu nhất?
+2. Nếu là người đặt tàu, nên đặt tàu như thế nào để đối thủ khó bắn trúng?
 
-Project duoc viet theo yeu cau hoc tap cho sinh vien nam nhat/nam hai, uu tien code ro rang, de doc, co comment tieng Viet va chi dung OOP co ban den trung binh.
+Project được thiết kế theo hướng học thuật, phù hợp với sinh viên năm nhất hoặc năm hai. Code ưu tiên rõ ràng, dễ đọc, có comment tiếng Việt và chỉ dùng các kiến thức OOP cơ bản đến trung bình như class, object, encapsulation, inheritance, polymorphism, abstract class, virtual function, vector, struct, enum và mảng 2 chiều.
 
-## 2. File Chinh
+## 2. Các File Trong Project
 
-Code hoan chinh nam trong 1 file:
-
-```text
-C:\Users\admin\Documents\New project\BattleshipOOP_OneFile.cpp
-```
-
-File nay co the compile truc tiep bang `g++`, khong can GUI, khong can thu vien phuc tap.
-
-## 3. Cach Compile Va Chay
-
-Mo terminal tai thu muc project:
-
-```bash
-cd "C:\Users\admin\Documents\New project"
-```
-
-Compile:
-
-```bash
-g++ BattleshipOOP_OneFile.cpp -O2 -std=c++11 -o battleship
-```
-
-Chay benchmark mac dinh, moi matchup 100000 tran:
-
-```bash
-./battleship
-```
-
-Chay nhanh de demo, vi du moi matchup 1000 tran:
-
-```bash
-./battleship 1000
-```
-
-Sau khi chay, chuong trinh se tao file CSV:
+Thư mục project gồm các file chính:
 
 ```text
-battleship_results.csv
+MiniProject_BattleShip_ver2/
+|-- BattleshipOOP_OneFile.cpp
+|-- README.md
+|-- battleship_results.csv
 ```
 
-## 4. Luat Game BattleShip
+Trong đó:
 
-- Ban choi kich thuoc 10x10.
-- Moi nguoi choi co 5 tau:
-  - Destroyer: 2 o
-  - Submarine: 3 o
-  - Cruiser: 3 o
-  - Battleship: 4 o
-  - Carrier: 5 o
-- Tau duoc dat ngau nhien hop le.
-- Tau nam ngang hoac doc.
-- Tau khong duoc chong len nhau.
-- Moi luot ban vao mot toa do.
-- Ban trung tau la HIT.
-- Ban truot la MISS.
-- Ban trung het cac o cua mot tau la SUNK.
-- Bot thang khi ban chim toan bo 5 tau cua doi thu.
-- Chuong trinh co xu ly tranh ban trung lap mot o.
+- `BattleshipOOP_OneFile.cpp`: file code C++ hoàn chỉnh, toàn bộ project nằm trong một file duy nhất.
+- `README.md`: tài liệu mô tả ý tưởng, thiết kế OOP, chiến thuật và kết luận.
+- `battleship_results.csv`: file kết quả thống kê được xuất ra sau simulation.
 
-## 5. Cac Chien Thuat Ban
+## 3. Luật Game BattleShip
+
+- Bàn chơi có kích thước 10x10.
+- Mỗi người chơi có 5 tàu:
+  - Destroyer: 2 ô
+  - Submarine: 3 ô
+  - Cruiser: 3 ô
+  - Battleship: 4 ô
+  - Carrier: 5 ô
+- Tàu được đặt ngẫu nhiên vào các vị trí hợp lệ.
+- Tàu có thể nằm ngang hoặc dọc.
+- Tàu không được chồng lên nhau.
+- Mỗi lượt bắn vào một tọa độ.
+- Nếu bắn trúng tàu thì kết quả là HIT.
+- Nếu bắn trượt thì kết quả là MISS.
+- Nếu toàn bộ ô của một tàu bị bắn trúng thì kết quả là SUNK.
+- Bot thắng khi bắn chìm toàn bộ 5 tàu của đối thủ.
+- Chương trình có xử lý tránh bắn trùng một ô.
+- Chương trình có xử lý random hợp lệ khi đặt tàu và khi bắn.
+
+## 4. Mục Tiêu Mô Phỏng
+
+Project chạy mô phỏng tự động nhiều trận giữa các bot để thu thập số liệu thống kê. Mục tiêu không phải là hiển thị từng lượt chơi, mà là dùng dữ liệu để so sánh hiệu quả chiến thuật.
+
+Các số liệu được thu thập gồm:
+
+- Tổng số trận.
+- Số trận thắng của từng bot.
+- Tỉ lệ thắng.
+- Tổng số phát bắn.
+- Số HIT.
+- Số MISS.
+- Độ chính xác.
+- Số lượt bắn trung bình để thắng.
+- Ma trận HIT 10x10.
+
+## 5. Các Chiến Thuật Bắn
 
 ### 5.1 Center Bias Strategy
 
-Bot uu tien ban cac o gan trung tam ban co truoc. Khi cac o trung tam da ban het, bot chuyen sang ban random cac o con lai.
+Bot ưu tiên bắn các ô gần trung tâm bàn cờ trước. Các ô trung tâm được bắn theo thứ tự gần tâm nhất. Khi vùng trung tâm đã bị bắn hết, bot chuyển sang bắn random các ô còn lại.
 
-Uu diem:
+Ưu điểm:
 
-- Don gian, de hieu.
-- Hop ly khi gia dinh tau thuong xuat hien gan trung tam.
+- Ý tưởng đơn giản, dễ hiểu.
+- Hợp lý nếu giả định tàu có khả năng xuất hiện nhiều ở vùng trung tâm.
 
-Nhuoc diem:
+Nhược điểm:
 
-- Khong co Target mode.
-- Ban trung tau nhung khong truy duoi de danh chim tau nhanh.
+- Không có Target mode.
+- Sau khi bắn HIT, bot không biết truy đuổi để đánh chìm tàu nhanh.
 
 ### 5.2 Checkerboard Strategy
 
-Bot uu tien ban theo mau caro, chi ban cac o thoa:
+Bot ưu tiên bắn theo mẫu caro. Các ô được ưu tiên là những ô thỏa điều kiện:
 
 ```cpp
 (row + col) % 2 == 0
 ```
 
-Khi ban het cac o caro, bot chuyen sang random cac o con lai.
+Khi các ô caro đã bị bắn hết, bot chuyển sang bắn random các ô còn lại.
 
-Uu diem:
+Ưu điểm:
 
-- Giam so o can tim trong giai doan dau.
-- Phu hop vi tau nho nhat co kich thuoc 2, nen mau caro giup tang kha nang cham tau.
+- Giảm số ô cần dò trong giai đoạn đầu.
+- Phù hợp với BattleShip vì tàu nhỏ nhất có kích thước 2, nên bắn theo caro vẫn có khả năng chạm tàu.
 
-Nhuoc diem:
+Nhược điểm:
 
-- Khong co Target mode.
-- Sau khi HIT van khong biet truy duoi tau.
+- Không có Target mode.
+- Sau khi bắn HIT, bot vẫn không truy đuổi tàu.
 
 ### 5.3 Hunt & Target Strategy
 
-Chien thuat co 2 trang thai:
+Chiến thuật này có 2 trạng thái:
 
-- Hunt mode: ban random co kiem soat de tim tau.
-- Target mode: sau khi HIT, ban cac o xung quanh diem HIT.
+- Hunt mode: bot bắn random có kiểm soát để tìm tàu.
+- Target mode: khi bắn HIT, bot ưu tiên bắn các ô xung quanh vị trí HIT.
 
-Neu co nhieu HIT lien tiep, bot co gang xac dinh huong tau va ban tiep theo huong do.
+Nếu tiếp tục HIT, bot cố gắng xác định hướng của tàu rồi bắn tiếp theo hướng đó. Nếu hướng hiện tại không hợp lệ hoặc bắn MISS, bot thử hướng ngược lại hoặc quay về Hunt mode khi không còn mục tiêu hợp lệ.
 
-Uu diem:
+Ưu điểm:
 
-- Sau khi tim thay tau, co kha nang danh chim nhanh.
-- Manh hon Center Bias va Checkerboard co ban.
+- Sau khi tìm thấy tàu, bot có khả năng đánh chìm nhanh hơn.
+- Mạnh hơn các chiến thuật chỉ bắn theo mẫu đơn giản.
 
-Nhuoc diem:
+Nhược điểm:
 
-- Hunt mode van random, chua toi uu vung tim kiem.
+- Trong Hunt mode, bot vẫn dùng random nên chưa tối ưu hoàn toàn vùng tìm kiếm.
 
 ### 5.4 Hybrid Adaptive Strategy
 
-Day la chien thuat ket hop:
+Đây là chiến thuật kết hợp:
 
 - Center Bias
 - Checkerboard
 - Hunt & Target
 
-Trong Hunt mode, bot uu tien cac o caro gan trung tam truoc. Khi HIT, bot chuyen sang Target mode nhu Hunt & Target.
+Trong Hunt mode, bot ưu tiên các ô caro ở gần trung tâm. Khi bắn HIT, bot chuyển sang Target mode giống Hunt & Target để truy đuổi và đánh chìm tàu.
 
-Uu diem:
+Ưu điểm:
 
-- Tim tau tot hon nho checkerboard.
-- Uu tien vung trung tam de tang toc do tim kiem.
-- Co Target mode de danh chim tau nhanh sau khi HIT.
+- Tìm tàu hiệu quả hơn nhờ checkerboard.
+- Ưu tiên trung tâm để tăng khả năng phát hiện tàu sớm.
+- Có Target mode để đánh chìm tàu nhanh sau khi HIT.
 
-Nhuoc diem:
+Nhược điểm:
 
-- Code phuc tap hon cac chien thuat con lai.
+- Code phức tạp hơn các chiến thuật còn lại.
+- Cần lưu trạng thái nhiều hơn.
 
-## 6. Chien Thuat Dat Tau
+## 6. Chiến Thuật Đặt Tàu
 
-Project hien tai cai dat:
+Project hiện tại cài đặt chiến thuật:
 
 ### Random Placement Strategy
 
-Moi tau duoc dat ngau nhien vao vi tri hop le, khong chong len tau khac.
+Tàu được đặt ngẫu nhiên vào vị trí hợp lệ, không chồng lên nhau. Mỗi tàu có thể nằm ngang hoặc dọc.
 
-Ket luan khi doc ma tran HIT:
+Chiến thuật này giúp tạo dữ liệu mô phỏng khách quan, vì vị trí tàu thay đổi liên tục qua từng trận.
 
-- Cac o co HIT cao la vung nguy hiem.
-- Cac o co HIT thap la vung nen can nhac dat tau.
-- Voi cac bot uu tien trung tam, vung bien va goc thuong an toan hon.
+Dựa trên ma trận HIT, người chơi có thể rút ra gợi ý đặt tàu:
 
-## 7. Thiet Ke OOP
+- Tránh đặt quá nhiều tàu ở vùng trung tâm nếu đối thủ dùng Center Bias hoặc Hybrid Adaptive.
+- Ưu tiên rải tàu về biên và góc nếu ma trận HIT cho thấy các vùng này ít bị bắn trúng hơn.
+- Không đặt các tàu quá sát nhau để tránh bị đối thủ truy đuổi liên tục sau khi HIT.
+- Thay đổi hướng ngang/dọc để giảm khả năng bị đoán hướng.
 
-### Position
+## 7. Thiết Kế OOP
 
-Luu toa do `row`, `col` tren ban co.
+### 7.1 Position
 
-### Ship
+Lưu tọa độ trên bàn cờ gồm `row` và `col`.
 
-Quan ly thong tin cua mot tau:
+Nhiệm vụ chính:
 
-- Ten tau
-- Kich thuoc tau
-- Danh sach vi tri tau chiem
-- So lan bi ban trung
-- Kiem tra tau da chim chua
+- Kiểm tra tọa độ có hợp lệ không.
+- So sánh hai vị trí có giống nhau không.
 
-### Board
+### 7.2 Ship
 
-Quan ly ban co 10x10:
+Quản lý thông tin của một tàu.
 
-- Dat tau
-- Kiem tra vi tri dat tau hop le
-- Nhan phat ban
-- Tra ve MISS, HIT hoac SUNK
-- Kiem tra tat ca tau da chim chua
+Thuộc tính chính:
 
-### Strategy
+- Tên tàu.
+- Kích thước tàu.
+- Danh sách vị trí tàu chiếm.
+- Số lần bị bắn trúng.
 
-Lop truu tuong cho chien thuat ban.
+Nhiệm vụ chính:
 
-Cac ham quan trong:
+- Kiểm tra tàu có chiếm một vị trí hay không.
+- Nhận HIT.
+- Kiểm tra tàu đã chìm chưa.
+
+### 7.3 Board
+
+Quản lý bàn chơi 10x10.
+
+Nhiệm vụ chính:
+
+- Reset bàn chơi.
+- Kiểm tra vị trí đặt tàu hợp lệ.
+- Đặt tàu.
+- Nhận phát bắn từ đối thủ.
+- Trả về kết quả MISS, HIT hoặc SUNK.
+- Kiểm tra tất cả tàu đã chìm chưa.
+
+### 7.4 Strategy
+
+`Strategy` là lớp cha trừu tượng cho các chiến thuật bắn.
+
+Các chiến thuật cụ thể kế thừa từ `Strategy` và override các hàm ảo như:
 
 ```cpp
 virtual Position chooseShot(mt19937& rng) = 0;
@@ -198,45 +209,68 @@ virtual void processShotResult(Position p, ShotResultType result) = 0;
 virtual Strategy* clone() const = 0;
 ```
 
-### PlacementStrategy
+### 7.5 PlacementStrategy
 
-Lop truu tuong cho chien thuat dat tau.
+`PlacementStrategy` là lớp cha trừu tượng cho các chiến thuật đặt tàu.
+
+Hàm quan trọng:
 
 ```cpp
 virtual void placeShips(Board& board, mt19937& rng) = 0;
 ```
 
-### Player
+Nhờ lớp này, project có thể mở rộng thêm nhiều cách đặt tàu khác mà không cần sửa logic của `Player` hoặc `Game`.
 
-Moi player co:
+### 7.6 Player
 
-- Mot `Board`
-- Mot `Strategy*`
-- Mot `PlacementStrategy*`
+Mỗi `Player` có:
 
-Player khong can biet dang dung chien thuat nao. Player chi goi ham ao `chooseShot()`.
+- Một `Board` riêng.
+- Một con trỏ `Strategy*` để bắn.
+- Một con trỏ `PlacementStrategy*` để đặt tàu.
 
-### Game
+`Player` không cần biết chiến thuật cụ thể là gì. Player chỉ gọi hàm ảo thông qua con trỏ lớp cha.
 
-Mo phong mot tran dau giua 2 Player.
+### 7.7 Game
 
-### Simulation
+`Game` mô phỏng một trận đấu giữa 2 player.
 
-Chay toan bo 16 matchup, gom thong ke, in report va xuat CSV.
+Nhiệm vụ chính:
 
-### Statistics
+- Reset game mới.
+- Cho hai bot lần lượt bắn.
+- Ghi nhận HIT, MISS, SUNK.
+- Xác định bot thắng.
+- Trả về kết quả trận đấu.
 
-Luu thong ke:
+### 7.8 Simulation
 
-- So tran
-- So tran thang
-- So phat ban
-- HIT
-- MISS
-- Accuracy
-- Average shots/game
-- Average turns to win
-- Hit matrix 10x10
+`Simulation` chạy toàn bộ benchmark.
+
+Nhiệm vụ chính:
+
+- Tạo danh sách 4 chiến thuật bắn.
+- Chạy toàn bộ 16 matchup.
+- Gom thống kê từng matchup.
+- Xếp hạng chiến thuật.
+- In báo cáo cuối.
+- Xuất file CSV.
+
+### 7.9 Statistics
+
+`Statistics` lưu số liệu thống kê.
+
+Các thông tin chính:
+
+- Số trận.
+- Số trận thắng.
+- Tổng số phát bắn.
+- Tổng HIT.
+- Tổng MISS.
+- Accuracy.
+- Average shots/game.
+- Average turns to win.
+- Hit matrix 10x10.
 
 ## 8. Class Diagram
 
@@ -334,119 +368,184 @@ classDiagram
     Simulation --> Statistics
 ```
 
-## 9. Da Hinh Trong Project
+## 9. OOP Trong Project
 
-`Strategy` la lop cha truu tuong. Bon chien thuat ban ke thua tu `Strategy` va override `chooseShot()`.
+### 9.1 Tính Đóng Gói
 
-`Player` chi giu con tro:
+Tính đóng gói thể hiện ở các class như `Ship`, `Board`, `Player`.
+
+Ví dụ:
+
+- `Ship` che giấu `name`, `size`, `positions`, `hitCount`.
+- `Board` che giấu mảng `shipIndex`, `wasShot` và danh sách `ships`.
+- `Player` che giấu board và chiến thuật bên trong.
+
+Bên ngoài chỉ có thể thao tác thông qua các hàm public.
+
+### 9.2 Tính Kế Thừa
+
+Tính kế thừa thể hiện ở:
+
+- `CenterBiasStrategy` kế thừa `Strategy`.
+- `CheckerboardStrategy` kế thừa `Strategy`.
+- `HuntTargetStrategy` kế thừa `Strategy`.
+- `HybridAdaptiveStrategy` kế thừa `Strategy`.
+- `RandomPlacementStrategy` kế thừa `PlacementStrategy`.
+
+### 9.3 Tính Đa Hình
+
+Tính đa hình thể hiện qua việc `Player` giữ con trỏ lớp cha:
 
 ```cpp
 Strategy* shootingStrategy;
+PlacementStrategy* placementStrategy;
 ```
 
-Khi goi:
+Khi gọi:
 
 ```cpp
 shootingStrategy->chooseShot(rng);
 ```
 
-C++ se tu chon dung ham cua doi tuong that o runtime. Day la runtime polymorphism.
+C++ sẽ tự động gọi đúng hàm `chooseShot()` của object thật ở runtime. Đây là runtime polymorphism.
 
-Tuong tu, `PlacementStrategy` cung la lop cha truu tuong. Hien tai co `RandomPlacementStrategy`, va co the mo rong them cac lop dat tau khac ma khong can sua `Player` hay `Game`.
+## 10. Vì Sao Strategy Là Ví Dụ Tốt Của Đa Hình?
 
-## 10. Bao Cao Output
+`Strategy` là ví dụ tốt vì `Game` và `Player` không cần biết bot đang dùng chiến thuật nào. Chúng chỉ cần gọi hàm chung `chooseShot()`.
 
-Chuong trinh in:
+Nhờ vậy:
 
-- Tong so strategy
-- Tong so matchup
-- So tran moi matchup
-- Ket qua tung matchup
-- Winrate bot1/bot2
-- Average shots/game
-- HIT, MISS
-- Accuracy
-- Average turns to win
-- Bang xep hang strategy
-- Hit matrix 10x10
-- Vung co HIT thap nhat
+- Có thể thêm chiến thuật mới mà không sửa `Game`.
+- Có thể thay đổi chiến thuật của bot dễ dàng.
+- Code dễ mở rộng và đúng tinh thần OOP.
 
-## 11. Cach Doc File CSV
+## 11. Vì Sao PlacementStrategy Cũng Là Ví Dụ Của Đa Hình?
 
-File `battleship_results.csv` gom 3 phan:
+`PlacementStrategy` cho phép thay đổi cách đặt tàu mà không cần sửa logic trận đấu.
 
-1. `MATCHUP STATISTICS`: thong ke tung cap dau.
-2. `STRATEGY RANKING`: xep hang tong hop theo strategy.
-3. `HIT MATRIX 10x10`: ma tran tan suat HIT cua tung o.
+Hiện tại project có `RandomPlacementStrategy`. Trong tương lai có thể thêm:
 
-Co the mo file bang Excel, Google Sheets hoac LibreOffice Calc.
+- `EdgePlacementStrategy`
+- `CornerBiasPlacementStrategy`
+- `SpreadPlacementStrategy`
+- `AntiHybridPlacementStrategy`
 
-## 12. Ket Luan Chien Thuat
+Tất cả chỉ cần kế thừa `PlacementStrategy` và override hàm `placeShips()`.
 
-Theo logic simulation, chien thuat manh nhat thuong la:
+## 12. Ma Trận HIT 10x10
+
+Ma trận HIT lưu số lần mỗi ô trên bàn cờ bị bắn trúng sau toàn bộ simulation.
+
+Ma trận này dùng để:
+
+- Xem ô nào thường bị bắn trúng nhiều nhất.
+- Phân tích vùng nguy hiểm trên bàn cờ.
+- So sánh hiệu quả của chiến thuật đặt tàu.
+- Tìm vùng ít nguy hiểm để đặt tàu.
+
+Cách đọc:
+
+- Số càng lớn: ô đó càng hay bị HIT.
+- Số càng nhỏ: ô đó ít bị HIT hơn.
+- Vùng có nhiều số lớn là vùng nguy hiểm.
+- Vùng có nhiều số nhỏ là vùng nên cân nhắc đặt tàu.
+
+## 13. File CSV Kết Quả
+
+File `battleship_results.csv` gồm 3 phần chính:
+
+1. `MATCHUP STATISTICS`: thống kê từng cặp chiến thuật.
+2. `STRATEGY RANKING`: bảng xếp hạng tổng hợp theo chiến thuật.
+3. `HIT MATRIX 10x10`: ma trận tần suất HIT của từng ô.
+
+Có thể mở file CSV bằng Excel, Google Sheets hoặc LibreOffice Calc để phân tích thêm.
+
+## 14. Kết Luận Chiến Thuật
+
+Theo logic mô phỏng, chiến thuật bắn tối ưu nhất thường là:
 
 ```text
 Hybrid Adaptive Strategy
 ```
 
-Ly do:
+Lý do:
 
-- Trong giai doan tim tau, no dung checkerboard de giam so o can ban.
-- No uu tien trung tam, noi tau co kha nang bi cham som hon trong nhieu cach dat random.
-- Sau khi HIT, no chuyen sang Target mode de danh chim tau nhanh.
+- Dùng checkerboard để giảm số ô cần dò.
+- Ưu tiên các ô gần trung tâm trong giai đoạn Hunt.
+- Sau khi HIT, chuyển sang Target mode để đánh chìm tàu nhanh.
+- Kết hợp được ưu điểm của nhiều chiến thuật.
 
-Chien thuat on dinh thu hai thuong la:
+Chiến thuật ổn định thứ hai thường là:
 
 ```text
 Hunt & Target Strategy
 ```
 
-Center Bias va Checkerboard don le yeu hon vi khong co Target mode.
+Hai chiến thuật `Center Bias` và `Checkerboard` yếu hơn vì không có khả năng truy đuổi tàu sau khi HIT.
 
-## 13. Goi Y Dat Tau
+## 15. Gợi Ý Cho Người Chơi
 
-Neu la nguoi dat tau, nen:
+Nếu là người bắn tàu:
 
-- Khong gom nhieu tau o trung tam.
-- Uu tien rai tau ve bien va goc.
-- Doi huong ngang/doc linh hoat.
-- Khong dat tau qua sat nhau.
-- Doc `HIT MATRIX 10x10` de tim cac vung co tan suat HIT thap.
+- Nên dùng tư duy Hybrid Adaptive.
+- Giai đoạn đầu bắn theo caro để tìm tàu.
+- Ưu tiên vùng trung tâm trước, sau đó mở rộng ra ngoài.
+- Khi bắn HIT, phải chuyển sang truy đuổi ngay.
+- Nếu xác định được hướng tàu, tiếp tục bắn theo hướng đó đến khi tàu chìm.
 
-Luu y: project hien tai moi co Random Placement. Co the nang cap them Edge Placement, Corner Placement hoac Anti-Hybrid Placement.
+Nếu là người đặt tàu:
 
-## 14. Han Che
+- Không nên gom nhiều tàu ở trung tâm.
+- Nên rải tàu về biên và góc nếu ma trận HIT cho thấy những vùng đó ít nguy hiểm hơn.
+- Không đặt các tàu quá sát nhau.
+- Thay đổi hướng ngang và dọc linh hoạt.
+- Dựa vào ma trận HIT để tránh các vùng hay bị bắn trúng.
 
-- Chua co GUI.
-- Chua co che do nguoi choi nhap tay.
-- Placement moi chi co random.
-- Chua dung probability heatmap nang cao.
-- Hunt & Target duoc cai dat theo muc de hieu, chua phai AI toi uu tuyet doi.
+## 16. Góc Nhìn Quản Lý Game
 
-## 15. Huong Nang Cap
+Nếu là người thiết kế hoặc quản lý game, nên tách rõ:
 
-Co the mo rong project bang:
+- Luật chơi nằm trong `Board` và `Game`.
+- Chiến thuật bắn nằm trong các lớp kế thừa `Strategy`.
+- Chiến thuật đặt tàu nằm trong các lớp kế thừa `PlacementStrategy`.
+- Thống kê nằm trong `Statistics` và `Simulation`.
 
-- Them `EdgePlacementStrategy`.
-- Them `CornerBiasPlacementStrategy`.
-- Them `SpreadPlacementStrategy` de dat tau rai deu.
-- Them che do nguoi choi vs bot.
-- Them doc config tu file.
-- Them nhieu lan benchmark de so sanh placement strategy.
-- Them output JSON hoac chart CSV rieng cho hit matrix.
-- Them xac suat don gian dua tren kich thuoc tau con lai.
+Cách tách này giúp project dễ bảo trì, dễ kiểm thử và dễ mở rộng.
 
-## 16. Tom Tat Cho Bao Cao
+## 17. Hạn Chế Của Project
 
-Project the hien ro cac tinh chat OOP:
+- Chưa có giao diện đồ họa.
+- Chưa có chế độ người chơi nhập tay tọa độ.
+- Placement hiện tại mới có random.
+- Chưa dùng probability heatmap nâng cao.
+- Hunt & Target được cài đặt theo hướng dễ hiểu, chưa phải AI tối ưu tuyệt đối.
+- Simulation phụ thuộc vào random nên kết quả có thể dao động nhẹ giữa các lần chạy.
 
-- Dong goi: `Ship`, `Board`, `Player` che giau du lieu noi bo.
-- Ke thua: cac strategy ke thua `Strategy`, placement ke thua `PlacementStrategy`.
-- Da hinh: `Player` goi ham ao qua `Strategy*` va `PlacementStrategy*`.
-- Mo rong tot: muon them chien thuat moi chi can tao class moi ke thua interface san co.
+## 18. Hướng Nâng Cấp
 
-Ket luan tong quat:
+Có thể mở rộng project bằng cách:
 
-- Chien thuat ban toi uu: Hybrid Adaptive Strategy.
-- Chien thuat on dinh: Hybrid Adaptive va Hunt & Target.
-- Chien thuat dat tau nen uu tien: tranh trung tam, rai tau ve bien/goc, dua tren HIT MATRIX de tranh vung nguy hiem.
+- Thêm `EdgePlacementStrategy`.
+- Thêm `CornerBiasPlacementStrategy`.
+- Thêm `SpreadPlacementStrategy`.
+- Thêm `AntiHybridPlacementStrategy`.
+- Thêm chế độ người chơi đấu với bot.
+- Thêm đọc cấu hình từ file.
+- Thêm xuất JSON hoặc biểu đồ từ CSV.
+- Thêm chiến thuật xác suất đơn giản dựa trên kích thước tàu còn lại.
+- So sánh nhiều chiến thuật đặt tàu khác nhau.
+
+## 19. Tóm Tắt Cho Báo Cáo
+
+Project thể hiện rõ các tính chất OOP:
+
+- Đóng gói: các class che giấu dữ liệu nội bộ và cung cấp hàm public để thao tác.
+- Kế thừa: các chiến thuật bắn kế thừa `Strategy`, chiến thuật đặt tàu kế thừa `PlacementStrategy`.
+- Đa hình: `Player` gọi hàm ảo thông qua con trỏ lớp cha.
+- Mở rộng tốt: muốn thêm chiến thuật mới chỉ cần tạo class mới kế thừa interface có sẵn.
+
+Kết luận tổng quát:
+
+- Chiến thuật bắn tối ưu: Hybrid Adaptive Strategy.
+- Chiến thuật ổn định: Hybrid Adaptive và Hunt & Target.
+- Chiến thuật đặt tàu nên ưu tiên: tránh trung tâm, rải tàu về biên/góc, dựa trên HIT MATRIX để tránh vùng nguy hiểm.
