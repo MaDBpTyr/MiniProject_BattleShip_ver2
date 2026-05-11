@@ -734,9 +734,12 @@ public:
 
         // Toi da moi bot ban 100 o, nen 200 phat la gioi han an toan.
         while (result.winner == 0 && result.totalShots < BOARD_SIZE * BOARD_SIZE * 2) {
+            bool currentShotHit = false;
+
             if (p1Turn) {
                 ShotRecord shot = player1.shoot(player2, rng);
                 recordShot(result, shot, true, hitMatrix);
+                currentShotHit = shot.result.isHit();
 
                 if (player2.hasLost()) {
                     result.winner = 1;
@@ -746,6 +749,7 @@ public:
             } else {
                 ShotRecord shot = player2.shoot(player1, rng);
                 recordShot(result, shot, false, hitMatrix);
+                currentShotHit = shot.result.isHit();
 
                 if (player1.hasLost()) {
                     result.winner = 2;
@@ -754,7 +758,10 @@ public:
                 }
             }
 
-            p1Turn = !p1Turn;
+            // Theo luat: ban trung thi duoc ban tiep, ban truot moi mat luot.
+            if (!currentShotHit) {
+                p1Turn = !p1Turn;
+            }
         }
 
         return result;
