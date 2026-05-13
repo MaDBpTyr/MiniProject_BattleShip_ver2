@@ -1319,7 +1319,7 @@ public:
 };
 
 int main(int argc, char* argv[]) {
-    int gamesPerMatchup = 100;
+    int gamesPerMatchup = 100000;
 
     if (argc >= 2) {
         int userValue = atoi(argv[1]);
