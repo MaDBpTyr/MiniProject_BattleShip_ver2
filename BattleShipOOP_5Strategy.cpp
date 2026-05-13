@@ -3,9 +3,7 @@
     ----------------------------------------------------
     - Mo phong 5 chien thuat ban tau va 1 chien thuat dat tau ngau nhien.
     - Chay 25 matchup, moi matchup mac dinh 100000 tran.
-    - Co the truyen so tran qua command line de test nhanh:
-        g++ BattleShipOOP_5Strategy.cpp -O2 -std=c++11 -o battleship_5strategy
-        ./battleship_5strategy 1000
+
 */
 
 #include <algorithm>
@@ -1244,7 +1242,7 @@ public:
 };
 
 int main(int argc, char* argv[]) {
-    int gamesPerMatchup = 10000;
+    int gamesPerMatchup = 100000;
 
     if (argc >= 2) {
         int userValue = atoi(argv[1]);
