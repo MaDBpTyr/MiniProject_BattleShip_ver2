@@ -3,9 +3,7 @@
     ----------------------------------------------------
     - Mo phong 6 chien thuat ban tau va 1 chien thuat dat tau ngau nhien.
     - Chay 36 matchup, moi matchup mac dinh 100000 tran.
-    - Co the truyen so tran qua command line de test nhanh:
-        g++ BattleShipOOP_6Strategy.cpp -O2 -std=c++11 -o battleship_6strategy
-        ./battleship_6strategy 1000
+
 */
 
 #include <algorithm>
